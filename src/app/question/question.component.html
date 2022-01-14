@@ -1,0 +1,71 @@
+<div class="container mt-5">
+  <div class="card">
+
+    <!-- Quiz Header Section -->
+    <div class="d-flex justify-content-between p-3">
+      <div class="image">
+        <img
+          src="https://img.icons8.com/color/96/000000/angularjs.png" alt="logo" width="90"/>
+      </div>
+      <div class="quiz-header">
+        <h4 style="font-family: cursive">Angular & TypeScript Quiz</h4>
+        <span style="font-style: italic">Welcome {{name}}</span>
+      </div>
+    </div>
+   
+    <!--Quiz Main Section -->
+    <ng-container *ngIf="!isQuizCompleted">
+      <div class="d-flex justify-content-around py-3">
+        <div class="score">
+          <h5>{{points}} points</h5>
+        </div>
+        <div class="question-remain">
+          <span style="font-style: italic;">Question {{currentQuestion+1}} 0f {{questionList.length}}</span>
+        </div>
+        <div class="timer">
+          <h5>{{counter}} sec ⏰</h5>
+        </div>
+      </div>
+      <div class="progress mb-3">
+        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [ngStyle]="{'width':progress+'%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <div class="question">
+        <div class="card">
+          <h3>{{questionList[currentQuestion]?.questionText}}</h3>
+        </div>
+      </div>
+      <div class="option">
+        <ol *ngFor="let option of questionList[currentQuestion]?.options">
+          <li (click)="answer(currentQuestion+1,option)" >
+            <div appChangeBg [isCorrect]="option.correct" class="card">  <!--directive is used here-->
+              {{option.text}}
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Quiz Footer Section -->
+      <div class="d-flex justify-content-between ">
+        <button class="btn btn-warning btn-lg" (click)="resetQuiz()">Refresh Quiz</button>
+        <button [disabled]="currentQuestion===8" class="btn btn-success btn-lg" (click)="nextQuestion()" (click)="resetCounter();" (click)="getProgressPercent()" >Next</button>
+        <button class="btn btn-info btn-lg" (click)="submitQuiz()" >Submit Quiz</button>
+      </div>
+    </ng-container>
+
+    <!-- Result Section -->
+    <ng-container *ngIf="isQuizCompleted" >
+      <div class="row justify-content-between">
+        <img style="width: 50%;" class="img-fluid col-sm-12 mx-auto" src="https://icon-library.com/images/celebration-icon-png/celebration-icon-png-7.jpg" alt="">
+        <div class="result text-center col-md-6 col-sm-12">
+          <h3>Congratulations!! <br>You Have Completed The Quiz. <br>Below is your Result:</h3>
+          <p>Total Question Attempted: {{questionAttempt}}</p>
+          <p>Total correct Answered: {{correctAnswer}}</p>
+          <p>Total Wrong Answered: {{incorrectAnswer}}</p>
+          <p>Your Score: {{points}} Points</p>
+          <button routerLink="/welcome" class="btn btn-primary btn-lg">Exit Quiz</button>
+        </div>
+      </div>
+    </ng-container>
+    
+  </div>
+</div>
